@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lemonade Stand</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" type="text/css" href="sheet.css">
+</head>
+<script>
+  var socket = io('http://localhost:3000');
+  socket.on('status', function(data) {
+    alert(data);
+  });
+  socket.on('user-found', function(data) {
+    document.getElementById('user').innerHTML = 'User: ' + data.name;
+    document.getElementById('user').className = '';
+    close();
+  });
+  socket.on('user-added', function(data) {
+    document.getElementById('user').innerHTML = 'User: ' + data.name;
+    document.getElementById('user').className = '';
+    close();
+  });
+	function createAccount(){
+    var user = document.getElementById('newuser').value;
+    if(value === ''){alert('Please enter an account name'); return;}
+    socket.emit('add-user', {name: user});
+	};
+  function searchAccount(){
+    var user = document.getElementById('usertxt').value;
+    socket.emit('get-user', {name: user});
+	};
+	function toggleAccount(){
+		var acct = document.getElementById('signin');
+		acct.className = acct.className === '' ? 'hide' : '';
+	}
+  function close(){
+    var acct = document.getElementById('signin');
+    acct.className = 'hide';
+  }
+</script>
+<body>
+  <h1>Lemonade Stand</h1>
+  <h2>Invoice</h2>
+  <h2 id='user' class='hide'>User: {username}</h2>
+  <div>Account name: <input id="usertxt" placeholder="Enter Account name"/>
+  <input type='button' value='Search Account' onClick='searchAccount()'/></div>
+  <form method="post" action="invoice">
+    Amount: <input type="text" name="amount"/> BTC <input class='hide' type="submit" value="Generate Invoice" />
+  </form>
+  <input type='button' value='Create Account' onClick="toggleAccount()"/>
+  <div id='signin' class='hide'>
+	New Account: <input id='newuser'/><br>
+  <input type='button' value='Ok' onClick='createAccount()'/>
+	<input type='button' value='Cancel' onClick='close()'/>
+  </div>
+</body>
+
+</html>

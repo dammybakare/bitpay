@@ -1,0 +1,15 @@
+{
+  "env": {
+      "browser": true,
+      "node": true,
+      "es6": true
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+      "no-const-assign": 2,
+      "prefer-const": 2,
+      "no-console": 0,
+      "no-mixed-spaces-and-tabs": 0,
+      "no-irregular-whitespace": 0
+  }
+}
